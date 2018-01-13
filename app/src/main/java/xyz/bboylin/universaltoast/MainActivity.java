@@ -3,6 +3,7 @@ package xyz.bboylin.universaltoast;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String[] ITEMS = {"通用toast", "强调toast", "可点击toast"
             , "通用 + 成功toast", "通用 + 警告toast", "通用 + 错误toast"
-            , "强调 + 成功toast", "通用 + 警告toast", "通用 + 错误toast"
+            , "强调 + 成功toast", "强调 + 警告toast", "强调 + 错误toast"
             , "可点击 + 成功toast", "可点击 + 警告toast", "可点击 + 错误toast"};
 
     @Override
@@ -35,17 +36,18 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         UniversalToast.makeText(MainActivity.this, "关注成功", UniversalToast.LENGTH_SHORT, UniversalToast.UNIVERSAL)
-                                .setLeftIcon(R.drawable.ic_done_white_24dp)
+                                .setGravity(Gravity.CENTER, 0, 0)
+                                .setIcon(R.drawable.ic_done_white_24dp)
                                 .show();
                         break;
                     case 1:
                         UniversalToast.makeText(MainActivity.this, "关注成功", UniversalToast.LENGTH_SHORT, UniversalToast.EMPHASIZE)
-                                .setLeftIcon(R.drawable.ic_check_circle_white_24dp)
+                                .setIcon(R.drawable.ic_check_circle_white_24dp)
                                 .show();
                         break;
                     case 2:
                         UniversalToast.makeText(MainActivity.this, "关注成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
-                                .setLeftIcon(R.drawable.ic_done_white_24dp)
+                                .setIcon(R.drawable.ic_done_white_24dp)
                                 .setClickCallBack("查看", onClickListener)
                                 .show();
                         break;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                                 .setClickCallBack("查看", onClickListener)
                                 .showError();
                         break;
+                    default:
                 }
             }
         });

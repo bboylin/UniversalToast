@@ -150,7 +150,7 @@ public class UniversalToast {
         return this;
     }
 
-    public UniversalToast setLeftIcon(@DrawableRes int resId) {
+    public UniversalToast setIcon(@DrawableRes int resId) {
         ImageView imageView;
         if (type == CLICKABLE) {
             imageView = (ImageView) view.findViewById(R.id.icon);
@@ -293,17 +293,17 @@ public class UniversalToast {
     }
 
     public void showSuccess() {
-        setLeftIcon(type == EMPHASIZE ? R.drawable.ic_check_circle_white_24dp : R.drawable.ic_done_white_24dp);
+        setIcon(type == EMPHASIZE ? R.drawable.ic_check_circle_white_24dp : R.drawable.ic_done_white_24dp);
         show();
     }
 
     public void showError() {
-        setLeftIcon(R.drawable.ic_clear_white_24dp);
+        setIcon(R.drawable.ic_clear_white_24dp);
         show();
     }
 
     public void showWarning() {
-        setLeftIcon(R.drawable.ic_error_outline_white_24dp);
+        setIcon(R.drawable.ic_error_outline_white_24dp);
         show();
     }
 
