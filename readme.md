@@ -1,5 +1,5 @@
 ### UniversalToast：an elegant and flexible toast which can handle click event
-
+[![](https://jitpack.io/v/bboylin/UniversalToast.svg)](https://jitpack.io/#bboylin/UniversalToast)
 ---
 
 中文版文档请戳：[这里](./readme_zh.md)
@@ -32,7 +32,7 @@ UniversalToast.makeText(context, text, duration).show();
 UniversalToast.makeText(context, text, duration,type).show();
 ```
 `duration` must be either `UniversalToast.LENGTH_LONG` or `UniversalToast.LENGTH_SHORT`,
-`type` must be one of `UniversalToast.UNIVERSAL` ,`UniversalToast.EMPHASIZE`,`UniversalToast.EMPHASIZE`, by default `UniversalToast.UNIVERSAL`.
+`type` must be one of `UniversalToast.UNIVERSAL` ,`UniversalToast.EMPHASIZE`,`UniversalToast.CLICKABLE`, by default `UniversalToast.UNIVERSAL`.
 
 ![](./art/universal.png)
 ![](./art/emphasize.png)
@@ -56,5 +56,8 @@ it has been provided 3 basically default styles for you,you can use `showSuccess
 ![](./art/success.png)
 ![](./art/warning.png)
 ![](./art/error.png)
+
+#### notice:
+using `UniversalToast.CLICKABLE` requires permission : `android.permission.SYSTEM_ALERT_WINDOW`
 
 thanks to : [ToastCompat](https://github.com/drakeet/ToastCompat)

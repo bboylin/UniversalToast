@@ -1,5 +1,5 @@
 ### UniversalToast：一个简洁优雅的toast组件，支持点击
-
+[![](https://jitpack.io/v/bboylin/UniversalToast.svg)](https://jitpack.io/#bboylin/UniversalToast)
 ---
 
 ![](./art/art.gif)
@@ -30,7 +30,7 @@ UniversalToast.makeText(context, text, duration).show();
 UniversalToast.makeText(context, text, duration,type).show();
 ```
 `duration` 应该是`UniversalToast.LENGTH_LONG` 和`UniversalToast.LENGTH_SHORT`其中之一,
-`type` 应该是`UniversalToast.UNIVERSAL` ,`UniversalToast.EMPHASIZE`,`UniversalToast.EMPHASIZE`三者之一,未指定则默认为`UniversalToast.UNIVERSAL`.
+`type` 应该是`UniversalToast.UNIVERSAL` ,`UniversalToast.EMPHASIZE`,`UniversalToast.CLICKABLE`三者之一,未指定则默认为`UniversalToast.UNIVERSAL`.
 
 ![](./art/universal.png)
 ![](./art/emphasize.png)
@@ -54,5 +54,8 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
 ![](./art/success.png)
 ![](./art/warning.png)
 ![](./art/error.png)
+
+#### 注意:
+使用可点击的toast(即`UniversalToast.CLICKABLE`)需要自行添加悬浮窗权限:`android.permission.SYSTEM_ALERT_WINDOW`
 
 感谢 : [ToastCompat](https://github.com/drakeet/ToastCompat)
