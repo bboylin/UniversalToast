@@ -59,7 +59,7 @@ it has been provided 3 basically default icons for you,you can use `showSuccess(
 ![](./art/warning.png)
 ![](./art/error.png)
 
-from left to right : `showSuccess` ， `showWarning` ， `showError` 
+from left to right : `showSuccess` ， `showWarning` ， `showError` （the pics above shows the type `EMPHASIZE` ，you can also use `CLICKABLE` or `UNIVERSAL`）
 
 #### notice:
 using `UniversalToast.CLICKABLE` requires permission : `android.permission.SYSTEM_ALERT_WINDOW`

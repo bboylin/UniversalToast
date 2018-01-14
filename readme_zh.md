@@ -1,4 +1,4 @@
-### UniversalToast：一个简洁优雅的toast组件，支持点击
+### UniversalToast：一个简洁优雅的toast组件，支持点击&安全
 [![](https://jitpack.io/v/bboylin/UniversalToast.svg)](https://jitpack.io/#bboylin/UniversalToast)
 ---
 
@@ -57,7 +57,7 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
 ![](./art/warning.png)
 ![](./art/error.png)
 
-从左到右依次为 : `showSuccess` ， `showWarning` ， `showError` 的图标（这里只展示了`UNIVERSAL`类型的toast，`CLICKABLE`和`EMPHASIZE`亦可）
+从左到右依次为 : `showSuccess` ， `showWarning` ， `showError` 的图标（这里只展示了`EMPHASIZE`类型的toast，`CLICKABLE`和`UNIVERSAL`亦可）
 
 #### 注意:
 使用可点击的toast(即`UniversalToast.CLICKABLE`)需要自行添加悬浮窗权限:`android.permission.SYSTEM_ALERT_WINDOW`
