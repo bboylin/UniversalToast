@@ -30,11 +30,13 @@ UniversalToast.makeText(context, text, duration).show();
 UniversalToast.makeText(context, text, duration,type).show();
 ```
 `duration` 应该是`UniversalToast.LENGTH_LONG` 和`UniversalToast.LENGTH_SHORT`其中之一,
-`type` 应该是`UniversalToast.UNIVERSAL` ,`UniversalToast.EMPHASIZE`,`UniversalToast.CLICKABLE`三者之一,未指定则默认为`UniversalToast.UNIVERSAL`.
+`type` 应该是 `UniversalToast.UNIVERSAL`  , `UniversalToast.EMPHASIZE` , `UniversalToast.CLICKABLE` 三者之一 , 未指定则默认为 `UniversalToast.UNIVERSAL`.
 
 ![](./art/universal.png)
 ![](./art/emphasize.png)
 ![](./art/clickable.png)
+
+从左到右依次为`UNIVERSAL`，`EMPHASIZE`，`CLICKABLE`样式的toast，图标文字可设置。
 
 * 更多API:
 
@@ -54,6 +56,8 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
 ![](./art/success.png)
 ![](./art/warning.png)
 ![](./art/error.png)
+
+从左到右依次为 : `showSuccess` ， `showWarning` ， `showError` 的图标（这里只展示了`UNIVERSAL`类型的toast，`CLICKABLE`和`EMPHASIZE`亦可）
 
 #### 注意:
 使用可点击的toast(即`UniversalToast.CLICKABLE`)需要自行添加悬浮窗权限:`android.permission.SYSTEM_ALERT_WINDOW`

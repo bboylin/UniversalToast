@@ -38,6 +38,8 @@ UniversalToast.makeText(context, text, duration,type).show();
 ![](./art/emphasize.png)
 ![](./art/clickable.png)
 
+from left to right : `UNIVERSAL` ， `EMPHASIZE` ， `CLICKABLE` , you can set the icon and text as you like 。
+
 * further api:
 
 ![](./art/api.png)
@@ -51,11 +53,13 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
               .setClickCallBack(text,R.drawable.my_btn,onClickListener)
               .show();
 ```
-it has been provided 3 basically default styles for you,you can use `showSuccess()`,`showWarning()` or `showError()` instead of `show()`
+it has been provided 3 basically default icons for you,you can use `showSuccess()`,`showWarning()` or `showError()` instead of `show()`
 
 ![](./art/success.png)
 ![](./art/warning.png)
 ![](./art/error.png)
+
+from left to right : `showSuccess` ， `showWarning` ， `showError` 
 
 #### notice:
 using `UniversalToast.CLICKABLE` requires permission : `android.permission.SYSTEM_ALERT_WINDOW`
