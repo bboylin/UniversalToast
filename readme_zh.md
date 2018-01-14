@@ -47,7 +47,7 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
               .setGravity(gravity,xOffset,yOffset)
               .setBackground(drawable)//设置背景
               .setColor(R.color.my_color)//设置背景色
-              .setIcon(R.drawable.my_ic)// 设置icon
+              .setIcon(R.drawable.my_ic)// 设置icon，未调用的话icon不可见(gone)
               .setClickCallBack(text,R.drawable.my_btn,onClickListener) //设置点击listener
               .show();
 ```

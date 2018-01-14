@@ -49,7 +49,7 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
               .setGravity(gravity,xOffset,yOffset)
               .setBackground(drawable)//set the background drawable as you like
               .setColor(R.color.my_color)//set the background color as you like
-              .setIcon(R.drawable.my_ic)// set the icon as you like
+              .setIcon(R.drawable.my_ic)// set the icon as you like (it's visibility is gone until you set icon)
               .setClickCallBack(text,R.drawable.my_btn,onClickListener)
               .show();
 ```
