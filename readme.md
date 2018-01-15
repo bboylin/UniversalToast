@@ -9,7 +9,7 @@
 #### features
 * elegant & flexible
 * can handle click event & custom duration (by adding view with WindowManager)
-* auto avoid BadTokenException in android N (which cannot be caught in you application,cause it happens not in main thread)
+* auto avoid BadTokenException in android N (which cannot be caught in you application)
 
 #### Usages
 * step 1 : add dependency
