@@ -1,4 +1,4 @@
-package xyz.bboylin.universaltoast;
+package xyz.bboylin.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import xyz.bboylin.universaltoast.R;
 import xyz.bboylin.universialtoast.UniversalToast;
 
 public class MainActivity extends AppCompatActivity {
