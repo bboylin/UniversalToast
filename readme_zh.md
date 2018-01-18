@@ -21,7 +21,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.2'
+    compile 'com.github.bboylin:UniversalToast:v1.0.3'
 }
 ```
 * step 2 : api类似原生toast
@@ -61,5 +61,10 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
 
 #### 注意:
 使用可点击的toast(即`UniversalToast.CLICKABLE`)需要自行添加悬浮窗权限:`android.permission.SYSTEM_ALERT_WINDOW`
+
+#### minSdkVersion>=14
+
+#### to do :
+- [ ] 通过反射绕过悬浮窗权限
 
 感谢 : [ToastCompat](https://github.com/drakeet/ToastCompat)

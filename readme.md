@@ -23,7 +23,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.2'
+    compile 'com.github.bboylin:UniversalToast:v1.0.3'
 }
 ```
 * step 2 : simply use it like system toast
@@ -63,5 +63,7 @@ from left to right : `showSuccess` ， `showWarning` ， `showError` （the pics
 
 #### notice:
 using `UniversalToast.CLICKABLE` requires permission : `android.permission.SYSTEM_ALERT_WINDOW`
+
+#### minSdkVersion>=14
 
 thanks to : [ToastCompat](https://github.com/drakeet/ToastCompat)
