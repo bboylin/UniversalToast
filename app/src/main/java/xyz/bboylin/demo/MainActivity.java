@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
             , "通用 + 成功toast", "通用 + 警告toast", "通用 + 错误toast"
             , "强调 + 成功toast", "强调 + 警告toast", "强调 + 错误toast"
             , "可点击 + 成功toast", "可点击 + 警告toast", "可点击 + 错误toast"};
+    private static final int REQUEST_PERMISSION_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,14 +102,21 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(getApplicationContext())) {
+            if (!Settings.canDrawOverlays(this)) {
                 UniversalToast.makeText(this, "请允许悬浮窗权限", UniversalToast.LENGTH_SHORT).showWarning();
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-                Log.d("MainActivity", "package:" + getPackageName());
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_PERMISSION_CODE);
                 return false;
             }
         }
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && requestCode == REQUEST_PERMISSION_CODE) {
+            String text = Settings.canDrawOverlays(this) ? "已获取悬浮窗权限" : "请打开悬浮窗权限";
+            UniversalToast.makeText(this, text, UniversalToast.LENGTH_SHORT).show();
+        }
     }
 }

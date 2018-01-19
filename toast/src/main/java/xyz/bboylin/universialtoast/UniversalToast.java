@@ -1,5 +1,6 @@
 package xyz.bboylin.universialtoast;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
@@ -7,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Handler;
+import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
@@ -86,10 +89,15 @@ public class UniversalToast {
             params.width = WindowManager.LayoutParams.WRAP_CONTENT;
             params.format = PixelFormat.TRANSLUCENT;
             params.windowAnimations = android.R.style.Animation_Toast;
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-            } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // android 8.0只能用这种类型
                 params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !Settings.canDrawOverlays(context)) {
+                // android 6.0以上申请权限被拒绝则使用这种类型，无需权限，但是会block交互。
+                params.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
+            } else {
+                params.type = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
             }
             params.setTitle("Toast");
             params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON

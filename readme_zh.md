@@ -21,7 +21,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.3'
+    compile 'com.github.bboylin:UniversalToast:v1.0.4'
 }
 ```
 * step 2 : api类似原生toast
@@ -60,11 +60,16 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
 从左到右依次为 : `showSuccess` ， `showWarning` ， `showError` 的图标（这里只展示了`EMPHASIZE`类型的toast，`CLICKABLE`和`UNIVERSAL`亦可）
 
 #### 注意:
-使用可点击的toast(即`UniversalToast.CLICKABLE`)需要自行添加悬浮窗权限:`android.permission.SYSTEM_ALERT_WINDOW`
+由于Android 8.0对悬浮窗权限的限制，使用可点击的toast(即`UniversalToast.CLICKABLE`)必须允许悬浮窗权限:
+```html
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+```
+关于如何动态申请权限请参考demo。
+Android 8.0以下不动态申请权限的话依然可以弹出可点击的toast。
 
 #### minSdkVersion>=14
 
 #### to do :
-- [ ] 通过反射绕过悬浮窗权限
+- [ ] 通过反射绕过国产ROM的悬浮窗权限
 
 感谢 : [ToastCompat](https://github.com/drakeet/ToastCompat)

@@ -23,7 +23,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.3'
+    compile 'com.github.bboylin:UniversalToast:v1.0.4'
 }
 ```
 * step 2 : simply use it like system toast
@@ -62,7 +62,12 @@ it has been provided 3 basically default icons for you,you can use `showSuccess(
 from left to right : `showSuccess` ， `showWarning` ， `showError` （the pics above shows the type `EMPHASIZE` ，you can also use `CLICKABLE` or `UNIVERSAL`）
 
 #### notice:
-using `UniversalToast.CLICKABLE` requires permission : `android.permission.SYSTEM_ALERT_WINDOW`
+using `UniversalToast.CLICKABLE` on `android O` requires permission : 
+```html
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+```
+Refer to demo about how to request permissions dynamically on `android O`.
+with system versions below Android 8.0,it's ok if you don't want to request permission dynamically
 
 #### minSdkVersion>=14
 
