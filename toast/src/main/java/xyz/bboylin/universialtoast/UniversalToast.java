@@ -86,7 +86,11 @@ public class UniversalToast {
             params.width = WindowManager.LayoutParams.WRAP_CONTENT;
             params.format = PixelFormat.TRANSLUCENT;
             params.windowAnimations = android.R.style.Animation_Toast;
-            params.type = WindowManager.LayoutParams.TYPE_PHONE;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            } else {
+                params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            }
             params.setTitle("Toast");
             params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM

@@ -1,5 +1,9 @@
 package xyz.bboylin.demo;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!requestPermission()) {
+                    return;
+                }
                 switch (position) {
                     case 0:
                         UniversalToast.makeText(MainActivity.this, "关注成功", UniversalToast.LENGTH_SHORT, UniversalToast.UNIVERSAL)
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         UniversalToast.makeText(MainActivity.this, "关注成功", UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
                                 .setIcon(R.drawable.ic_done_white_24dp)
+                                .setGravity(Gravity.TOP, 0, 0)
                                 .setClickCallBack("查看", onClickListener)
                                 .show();
                         break;
@@ -89,5 +97,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(getApplicationContext())) {
+                UniversalToast.makeText(this, "请允许悬浮窗权限", UniversalToast.LENGTH_SHORT).showWarning();
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+                Log.d("MainActivity", "package:" + getPackageName());
+                startActivity(intent);
+                return false;
+            }
+        }
+        return true;
     }
 }
