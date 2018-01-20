@@ -41,6 +41,11 @@ UniversalToast.makeText(context, text, duration,type).show();
 * 更多API:
 
 ![](./art/api.png)
+
+设置duration和设置动画的方法被废弃掉了，因为：
+* 不建议自己修改toast显示时长
+* 在android framework里限制了windowAnimations必须是系统动画。
+
 ```java
 //example
 UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToast.CLICKABLE)
@@ -65,11 +70,11 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
 <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
 关于如何动态申请权限请参考demo。
-Android 8.0以下不动态申请权限的话依然可以弹出可点击的toast。
+Android 8.0以下不动态申请权限的话依然可以弹出可点击的toast，但是manifest里还是需要静态申请。
 
 #### minSdkVersion>=14
 
 #### to do :
-- [ ] 通过反射绕过国产ROM的悬浮窗权限
+- [ ] icon支持动画
 
 感谢 : [ToastCompat](https://github.com/drakeet/ToastCompat)
