@@ -23,7 +23,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.4'
+    compile 'com.github.bboylin:UniversalToast:v1.0.5'
 }
 ```
 * step 2 : simply use it like system toast
@@ -67,7 +67,7 @@ using `UniversalToast.CLICKABLE` on `android O` requires permission :
 <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
 Refer to demo about how to request permissions dynamically on `android O`.
-with system versions below Android 8.0,it's ok if you don't want to request permission dynamically,but it's also required to request permission staticly in AndroidManifest.xml
+with system versions below Android 8.0,it's unnecessary to request permission。
 
 #### minSdkVersion>=14
 

@@ -21,7 +21,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.4'
+    compile 'com.github.bboylin:UniversalToast:v1.0.5'
 }
 ```
 * step 2 : api类似原生toast
@@ -69,8 +69,8 @@ UniversalToast.makeText(context, text, UniversalToast.LENGTH_SHORT, UniversalToa
 ```html
 <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 ```
-关于如何动态申请权限请参考demo。
-Android 8.0以下不动态申请权限的话依然可以弹出可点击的toast，但是manifest里还是需要静态申请。
+关于如何动态申请权限请参考demo。</br>
+Android 8.0以下无需悬浮窗权限。
 
 #### minSdkVersion>=14
 
