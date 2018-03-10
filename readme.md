@@ -8,8 +8,9 @@
 
 #### features
 * elegant & flexible
-* can handle click event & custom duration (by adding view with WindowManager)
+* can handle click event & custom duration
 * auto avoid BadTokenException in android N (which cannot be caught in you application)
+* run fine without notification permission
 
 #### Usages
 * step 1 : add dependency
@@ -23,7 +24,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.5'
+    compile 'com.github.bboylin:UniversalToast:v1.0.6'
 }
 ```
 * step 2 : simply use it like system toast

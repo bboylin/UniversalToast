@@ -6,8 +6,9 @@
 
 #### features
 * 优雅 & 灵活
-* 可点击 & 可随意设置显示时长（通过WimdowManager添加view实现）
+* 可点击 & 可随意设置显示时长
 * 主动避免android 7.0使用toast可能出现的BadTokenException
+* 关闭通知权限后依然可以正常弹出
 
 #### Usages
 * step 1 : 添加依赖
@@ -21,7 +22,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.5'
+    compile 'com.github.bboylin:UniversalToast:v1.0.6'
 }
 ```
 * step 2 : api类似原生toast
