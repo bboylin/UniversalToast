@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 /**
+ * 做了一些修改，避免7.1.1上BadTokenException的context
+ *
  * @author drakeet
  * @link https://github.com/drakeet/ToastCompat
  */
@@ -19,13 +21,12 @@ final class SafeToastContext extends ContextWrapper {
         super(base);
     }
 
-
     @Override
     public Context getApplicationContext() {
         return new ApplicationContextWrapper(getBaseContext().getApplicationContext());
     }
 
-    private final class ApplicationContextWrapper extends ContextWrapper {
+    private static final class ApplicationContextWrapper extends ContextWrapper {
 
         private ApplicationContextWrapper(@NonNull Context base) {
             super(base);
@@ -43,12 +44,11 @@ final class SafeToastContext extends ContextWrapper {
     }
 
 
-    private final class WindowManagerWrapper implements WindowManager {
+    private static final class WindowManagerWrapper implements WindowManager {
 
         private static final String TAG = "WindowManagerWrapper";
-        private final @NonNull
-        WindowManager base;
-
+        @NonNull
+        private WindowManager base;
 
         private WindowManagerWrapper(@NonNull WindowManager base) {
             this.base = base;

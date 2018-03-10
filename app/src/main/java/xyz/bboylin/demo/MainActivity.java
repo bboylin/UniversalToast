@@ -17,6 +17,7 @@ import xyz.bboylin.universaltoast.R;
 import xyz.bboylin.universialtoast.UniversalToast;
 
 public class MainActivity extends AppCompatActivity {
+    private long lastBackTime = 0;
 
     public static final String[] ITEMS = {"通用toast", "强调toast", "可点击toast"
             , "通用 + 成功toast", "通用 + 警告toast", "通用 + 错误toast"
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ListView listView = (ListView) findViewById(R.id.listview);
+        ListView listView = findViewById(R.id.listview);
         final View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (!Settings.canDrawOverlays(this)) {
                 UniversalToast.makeText(this, "请允许悬浮窗权限", UniversalToast.LENGTH_SHORT).showWarning();
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
@@ -119,4 +120,18 @@ public class MainActivity extends AppCompatActivity {
             UniversalToast.makeText(this, text, UniversalToast.LENGTH_SHORT).show();
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - lastBackTime < 2000) {
+            finish();
+        } else {
+            lastBackTime = System.currentTimeMillis();
+            UniversalToast.makeText(this, "再次返回退出应用", UniversalToast.LENGTH_SHORT)
+                    .setGravity(Gravity.CENTER, 0, 0)
+                    .show();
+        }
+    }
+
 }
