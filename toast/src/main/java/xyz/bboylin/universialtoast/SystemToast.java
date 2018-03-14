@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import xyz.bboylin.universaltoast.R;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
-import static android.os.Build.VERSION_CODES.O;
+import static android.os.Build.VERSION_CODES.N;
 import static xyz.bboylin.universialtoast.UniversalToast.EMPHASIZE;
 import static xyz.bboylin.universialtoast.UniversalToast.UNIVERSAL;
 
@@ -59,7 +59,7 @@ public class SystemToast implements IToast {
         View view = LayoutInflater.from(context).inflate(layoutId, null);
         ((TextView) view.findViewById(R.id.text)).setText(text);
         toast.setView(view);
-        if (Build.VERSION.SDK_INT < O) {
+        if (Build.VERSION.SDK_INT == N) {
             setContext(view, new SafeToastContext(context));
         }
         return new SystemToast(context, toast, type);
