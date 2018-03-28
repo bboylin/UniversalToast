@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -46,7 +47,7 @@ public class UniversalToast {
         // 5.0以下采用自定义toast
         if (notificationEnabledValue < 0) {
             if (Build.VERSION.SDK_INT > KITKAT) {
-                notificationEnabledValue = NotificationUtils.isNotificationEnabled(context) ? 1 : 0;
+                notificationEnabledValue = NotificationManagerCompat.from(context).areNotificationsEnabled() ? 1 : 0;
             } else {
                 notificationEnabledValue = 0;
             }
