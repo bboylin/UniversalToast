@@ -22,7 +22,7 @@ allprojects {
 
 dependencies {
     ......
-    compile 'com.github.bboylin:UniversalToast:v1.0.7'
+    compile 'com.github.bboylin:UniversalToast:v1.0.8'
 }
 ```
 * step 2 : api类似原生toast
