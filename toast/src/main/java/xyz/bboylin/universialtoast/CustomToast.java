@@ -73,12 +73,7 @@ public class CustomToast implements IToast {
         mParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         mParams.format = PixelFormat.TRANSLUCENT;
         mParams.windowAnimations = android.R.style.Animation_Toast;
-        if (Build.VERSION.SDK_INT >= O) {
-            // android 8.0只能用这种类型
-            mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
-        }
+        mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
         mParams.setTitle("Toast");
         mParams.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM

@@ -46,7 +46,7 @@ public class UniversalToast {
     public static IToast makeText(@NonNull Context context, @NonNull String text, @Duration int duration, @Type int type) {
         // 5.0以下采用自定义toast
         if (notificationEnabledValue < 0) {
-            if (Build.VERSION.SDK_INT > KITKAT) {
+            if (Build.VERSION.SDK_INT >= KITKAT) {
                 notificationEnabledValue = NotificationManagerCompat.from(context).areNotificationsEnabled() ? 1 : 0;
             } else {
                 notificationEnabledValue = 0;
