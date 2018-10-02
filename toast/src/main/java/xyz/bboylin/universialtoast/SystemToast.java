@@ -37,7 +37,7 @@ public class SystemToast implements IToast {
     private final Context mContext;
     @UniversalToast.Type
     private final int mType;
-    private static final String TAG = UniversalToast.class.getSimpleName();
+    private static final String TAG = "UniversalToast";
 
     private SystemToast(@NonNull Context context, @NonNull Toast toast, @UniversalToast.Type int type) {
         mContext = context;
@@ -45,11 +45,13 @@ public class SystemToast implements IToast {
         mType = type;
     }
 
-    public static SystemToast makeText(@NonNull Context context, @NonNull String text, @UniversalToast.Duration int duration) {
+    public static SystemToast makeText(@NonNull Context context, @NonNull String text, @UniversalToast.Duration int
+            duration) {
         return makeText(context, text, duration, UNIVERSAL);
     }
 
-    public static SystemToast makeText(@NonNull Context context, @NonNull String text, @UniversalToast.Duration int duration, @UniversalToast.Type int type) {
+    public static SystemToast makeText(@NonNull Context context, @NonNull String text, @UniversalToast.Duration int
+            duration, @UniversalToast.Type int type) {
         Toast toast = Toast.makeText(context, text, duration);
         int layoutId = R.layout.toast_universal;
         if (type == EMPHASIZE) {

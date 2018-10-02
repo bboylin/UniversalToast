@@ -76,6 +76,8 @@ Android 8.0以下无需悬浮窗权限。
 #### minSdkVersion>=14
 
 #### to do :
-- [ ] icon支持动画
+- [ ] icon支持gif
+- [ ] 使用队列展示toast
+- [ ] 解决finish的时候toast还在显示的崩溃
 
 感谢 : [ToastCompat](https://github.com/drakeet/ToastCompat)

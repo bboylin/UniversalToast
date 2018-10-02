@@ -48,22 +48,22 @@ final class SafeToastContext extends ContextWrapper {
 
         private static final String TAG = "WindowManagerWrapper";
         @NonNull
-        private WindowManager base;
+        private WindowManager mWindowManager;
 
-        private WindowManagerWrapper(@NonNull WindowManager base) {
-            this.base = base;
+        private WindowManagerWrapper(@NonNull WindowManager windowManager) {
+            this.mWindowManager = windowManager;
         }
 
 
         @Override
         public Display getDefaultDisplay() {
-            return base.getDefaultDisplay();
+            return mWindowManager.getDefaultDisplay();
         }
 
 
         @Override
         public void removeViewImmediate(View view) {
-            base.removeViewImmediate(view);
+            mWindowManager.removeViewImmediate(view);
         }
 
 
@@ -71,7 +71,7 @@ final class SafeToastContext extends ContextWrapper {
         public void addView(View view, ViewGroup.LayoutParams params) {
             try {
                 Log.d(TAG, "WindowManager's addView(view, params) has been hooked.");
-                base.addView(view, params);
+                mWindowManager.addView(view, params);
             } catch (BadTokenException e) {
                 // ignore
                 Log.d(TAG, "BadTokenException ignored");
@@ -83,13 +83,13 @@ final class SafeToastContext extends ContextWrapper {
 
         @Override
         public void updateViewLayout(View view, ViewGroup.LayoutParams params) {
-            base.updateViewLayout(view, params);
+            mWindowManager.updateViewLayout(view, params);
         }
 
 
         @Override
         public void removeView(View view) {
-            base.removeView(view);
+            mWindowManager.removeView(view);
         }
     }
 }

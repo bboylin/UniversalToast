@@ -47,7 +47,7 @@ public class CustomToast implements IToast {
     private final int mType;
     private static final int TIME_LONG = 3500;
     private static final int TIME_SHORT = 2000;
-    private static final String TAG = UniversalToast.class.getSimpleName();
+    private static final String TAG = "UniversalToast";
 
     private CustomToast(@NonNull Context context, @NonNull String text, @Duration int duration, @Type int type) {
         mType = type;
@@ -174,7 +174,7 @@ public class CustomToast implements IToast {
         if (mView.getParent() != null) {
             mWindowManager.removeView(mView);
         }
-        Log.e(TAG, "addview");
+        Log.d(TAG, "addView");
         mWindowManager.addView(mView, mParams);
         mHandler.postDelayed(new Runnable() {
             @Override

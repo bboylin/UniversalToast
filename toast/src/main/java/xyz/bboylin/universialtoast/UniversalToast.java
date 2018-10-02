@@ -20,7 +20,10 @@ import static android.os.Build.VERSION_CODES.KITKAT;
  */
 
 public class UniversalToast {
-    private static int notificationEnabledValue = -1;
+    private static final int NOTIFICATION_UNKNOWN = -1;
+    private static final int NOTIFICATION_DISABLED = 0;
+    private static final int NOTIFICATION_ENABLED = 1;
+    private static int sNotificationStatus = NOTIFICATION_UNKNOWN;
 
     public static final int UNIVERSAL = 0;
     public static final int EMPHASIZE = 1;
@@ -43,24 +46,30 @@ public class UniversalToast {
         return makeText(context, text, duration, UNIVERSAL);
     }
 
-    public static IToast makeText(@NonNull Context context, @NonNull String text, @Duration int duration, @Type int type) {
-        // 5.0以下采用自定义toast
-        if (notificationEnabledValue < 0) {
-            if (Build.VERSION.SDK_INT >= KITKAT) {
-                notificationEnabledValue = NotificationManagerCompat.from(context).areNotificationsEnabled() ? 1 : 0;
-            } else {
-                notificationEnabledValue = 0;
-            }
-        }
+    public static IToast makeText(@NonNull Context context, @NonNull String text, @Duration int duration, @Type int
+            type) {
         // 允许通知权限则尽量用系统toast
         // 没有通知权限或者是可点击的toast则使用自定义toast
-        if (notificationEnabledValue > 0 && type != CLICKABLE) {
-            Log.e("TAG", notificationEnabledValue + "SystemToast");
+        if (notificationEnabled(context) && type != CLICKABLE) {
+            Log.d("TAG", sNotificationStatus + ":SystemToast");
             return SystemToast.makeText(context, text, duration, type);
         } else {
-            Log.e("TAG", notificationEnabledValue + "CustomToast");
+            Log.d("TAG", sNotificationStatus + ":CustomToast");
             return CustomToast.makeText(context, text, duration, type);
         }
+    }
+
+    private static boolean notificationEnabled(Context context) {
+        // 5.0以下采用自定义toast
+        if (sNotificationStatus == NOTIFICATION_UNKNOWN) {
+            if (Build.VERSION.SDK_INT >= KITKAT) {
+                sNotificationStatus = NotificationManagerCompat.from(context).areNotificationsEnabled() ?
+                        NOTIFICATION_ENABLED : NOTIFICATION_DISABLED;
+            } else {
+                sNotificationStatus = NOTIFICATION_DISABLED;
+            }
+        }
+        return sNotificationStatus == NOTIFICATION_ENABLED;
     }
 }
 
