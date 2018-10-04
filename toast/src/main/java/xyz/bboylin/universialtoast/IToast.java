@@ -1,6 +1,7 @@
 package xyz.bboylin.universialtoast;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
@@ -21,7 +22,7 @@ public interface IToast {
      * @param duration 显示时长
      * @return IToast
      */
-    IToast setDuration(int duration);
+    IToast setDuration(@UniversalToast.Duration int duration);
 
     /**
      * 设置icon
@@ -29,7 +30,16 @@ public interface IToast {
      * @param resId drawableId
      * @return IToast
      */
-    IToast setIcon(@DrawableRes int resId);
+    IToast setLeftIconRes(@DrawableRes int resId);
+
+    /**
+     * 设置gif的uri
+     *
+     * @param leftGifUri left gif uri
+     * @return IToast
+     */
+    IToast setLeftGifUri(@NonNull Uri leftGifUri);
+
 
     /**
      * 设置动画
@@ -121,7 +131,7 @@ public interface IToast {
      * @param listener 点击listener
      * @return IToast
      */
-    IToast setClickCallBack(@NonNull String text, @NonNull View.OnClickListener listener);
+    IToast setClickCallback(@NonNull String text, @NonNull View.OnClickListener listener);
 
     /**
      * 设置点击事件
@@ -131,5 +141,5 @@ public interface IToast {
      * @param listener 点击listener
      * @return IToast
      */
-    IToast setClickCallBack(@NonNull String text, @DrawableRes int resId, @NonNull View.OnClickListener listener);
+    IToast setClickCallback(@NonNull String text, @DrawableRes int resId, @NonNull View.OnClickListener listener);
 }

@@ -48,7 +48,7 @@ public class UniversalToast {
 
     public static IToast makeText(@NonNull Context context, @NonNull String text, @Duration int duration, @Type int
             type) {
-        // 允许通知权限则尽量用系统toast
+        // 允许通知权限,并且不需要点击则用系统toast
         // 没有通知权限或者是可点击的toast则使用自定义toast
         if (notificationEnabled(context) && type != CLICKABLE) {
             Log.d("TAG", sNotificationStatus + ":SystemToast");

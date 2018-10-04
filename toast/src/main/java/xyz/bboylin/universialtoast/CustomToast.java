@@ -1,23 +1,34 @@
 package xyz.bboylin.universialtoast;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import xyz.bboylin.universaltoast.R;
 import xyz.bboylin.universialtoast.UniversalToast.Duration;
@@ -25,7 +36,6 @@ import xyz.bboylin.universialtoast.UniversalToast.Type;
 
 import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
-import static android.os.Build.VERSION_CODES.O;
 import static xyz.bboylin.universialtoast.UniversalToast.CLICKABLE;
 import static xyz.bboylin.universialtoast.UniversalToast.EMPHASIZE;
 import static xyz.bboylin.universialtoast.UniversalToast.UNIVERSAL;
@@ -37,17 +47,26 @@ import static xyz.bboylin.universialtoast.UniversalToast.UNIVERSAL;
  */
 
 public class CustomToast implements IToast {
+    private static final String TAG = "UniversalToast";
+    private static final int NO_LEFT_ICON = 0;
+    private static final int TIME_LONG = 3500;
+    private static final int TIME_SHORT = 2000;
+
     private WindowManager.LayoutParams mParams;
     private WindowManager mWindowManager;
+    private Context mContext;
     private View mView;
     private int mDuration;
-    private Handler mHandler;
+    private static Handler sHandler = new Handler(Looper.getMainLooper());
+    private Runnable mShowRunnable;
+    private Runnable mCancelRunnable;
     private View.OnClickListener mListener = null;
     @UniversalToast.Type
     private final int mType;
-    private static final int TIME_LONG = 3500;
-    private static final int TIME_SHORT = 2000;
-    private static final String TAG = "UniversalToast";
+    @DrawableRes
+    private int mLeftIconRes = NO_LEFT_ICON;
+    @Nullable
+    private Uri mLeftGifUri;
 
     private CustomToast(@NonNull Context context, @NonNull String text, @Duration int duration, @Type int type) {
         mType = type;
@@ -65,6 +84,7 @@ public class CustomToast implements IToast {
             default:
                 break;
         }
+        mContext = context;
         mView = LayoutInflater.from(context).inflate(layoutId, null);
         ((TextView) mView.findViewById(R.id.text)).setText(text);
         mDuration = (duration == UniversalToast.LENGTH_LONG ? TIME_LONG : TIME_SHORT);
@@ -78,19 +98,32 @@ public class CustomToast implements IToast {
         mParams.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
                 | WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING;
-        mHandler = new Handler();
+        mCancelRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // activity正在finish的时候不要remove
+                if (!(mContext != null && mContext instanceof Activity && ((Activity) mContext).isFinishing())) {
+                    mWindowManager.removeViewImmediate(mView);
+                }
+                mParams = null;
+                mWindowManager = null;
+                mView = null;
+                mListener = null;
+            }
+        };
     }
 
     public static CustomToast makeText(@NonNull Context context, @NonNull String text, @Duration int duration) {
         return makeText(context, text, duration, UNIVERSAL);
     }
 
-    public static CustomToast makeText(@NonNull Context context, @NonNull String text, @Duration int duration, @Type int type) {
+    public static CustomToast makeText(@NonNull Context context, @NonNull String text, @Duration int duration, @Type
+            int type) {
         return new CustomToast(context, text, duration, type);
     }
 
     @Override
-    public IToast setDuration(int duration) {
+    public IToast setDuration(@Duration int duration) {
         if (duration == UniversalToast.LENGTH_SHORT) {
             mDuration = TIME_SHORT;
         } else if (duration == UniversalToast.LENGTH_LONG) {
@@ -102,21 +135,25 @@ public class CustomToast implements IToast {
     }
 
     @Override
-    public IToast setIcon(int resId) {
-        ImageView imageView = mView.findViewById(R.id.icon);
-        imageView.setBackgroundResource(resId);
-        imageView.setVisibility(View.VISIBLE);
+    public IToast setLeftIconRes(@DrawableRes int resId) {
+        mLeftIconRes = resId;
         return this;
     }
 
     @Override
-    public IToast setAnimations(int animations) {
+    public IToast setLeftGifUri(@NonNull Uri leftGifUri) {
+        mLeftGifUri = leftGifUri;
+        return this;
+    }
+
+    @Override
+    public IToast setAnimations(@StyleRes int animations) {
         mParams.windowAnimations = animations;
         return this;
     }
 
     @Override
-    public IToast setColor(int colorRes) {
+    public IToast setColor(@ColorRes int colorRes) {
         GradientDrawable drawable = (GradientDrawable) mView.getBackground();
         drawable.setColor(mView.getContext().getResources().getColor(colorRes));
         return this;
@@ -154,7 +191,7 @@ public class CustomToast implements IToast {
     }
 
     @Override
-    public IToast setText(int resId) {
+    public IToast setText(@StringRes int resId) {
         ((TextView) mView.findViewById(R.id.text)).setText(resId);
         return this;
     }
@@ -167,58 +204,85 @@ public class CustomToast implements IToast {
 
     @Override
     public void show() {
-        if (mType == CLICKABLE && mListener == null) {
-            Log.e(TAG, "the listener of clickable toast is null,have you called method:setClickCallBack?");
-            return;
+        if (mShowRunnable != null) {
+            sHandler.removeCallbacksAndMessages(null);
         }
-        if (mView.getParent() != null) {
-            mWindowManager.removeView(mView);
-        }
-        Log.d(TAG, "addView");
-        mWindowManager.addView(mView, mParams);
-        mHandler.postDelayed(new Runnable() {
+        mShowRunnable = new Runnable() {
             @Override
             public void run() {
-                cancel();
+                if (mType == CLICKABLE && mListener == null) {
+                    Log.e(TAG, "the listener of clickable toast is null,have you called method:setClickCallback?");
+                    return;
+                }
+                if (mView != null && mView.getParent() instanceof ViewGroup) {
+                    ((ViewGroup) mView.getParent()).removeView(mView);
+                }
+                SimpleDraweeView draweeView = mView.findViewById(R.id.icon);
+                if (mLeftGifUri != null) {
+                    DraweeController draweeController = Fresco.newDraweeControllerBuilder()
+                            .setAutoPlayAnimations(true) // 自动播放动画
+                            .setUri(mLeftGifUri)
+                            .build();
+                    draweeView.setController(draweeController);
+                    draweeView.setVisibility(View.VISIBLE);
+                } else if (mLeftIconRes != NO_LEFT_ICON) {
+                    draweeView.setActualImageResource(mLeftIconRes);
+                    draweeView.setVisibility(View.VISIBLE);
+                }
+                mWindowManager.addView(mView, mParams);
+                Log.d(TAG, "addView");
+                sHandler.postDelayed(mCancelRunnable, mDuration);
             }
-        }, mDuration);
+        };
+        sHandler.post(mShowRunnable);
     }
 
     @Override
     public void cancel() {
-        mWindowManager.removeView(mView);
-        mParams = null;
-        mWindowManager = null;
-        mView = null;
-        mHandler = null;
-        mListener = null;
+        if (sHandler != null) {
+            sHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    // activity正在finish的时候不要remove
+                    if (!(mContext != null && mContext instanceof Activity && ((Activity) mContext).isFinishing())) {
+                        mWindowManager.removeViewImmediate(mView);
+                    }
+                    mParams = null;
+                    mWindowManager = null;
+                    mView = null;
+                    mListener = null;
+                }
+            });
+            sHandler.removeCallbacks(mCancelRunnable);
+        }
     }
 
     @Override
     public void showSuccess() {
-        setIcon(mType == EMPHASIZE ? R.drawable.ic_check_circle_white_24dp : R.drawable.ic_done_white_24dp);
+        setLeftIconRes(mType == EMPHASIZE ? R.drawable.ic_check_circle_white_24dp : R.drawable.ic_done_white_24dp);
         show();
     }
 
     @Override
     public void showError() {
-        setIcon(R.drawable.ic_clear_white_24dp);
+        setLeftIconRes(R.drawable.ic_clear_white_24dp);
         show();
     }
 
     @Override
     public void showWarning() {
-        setIcon(R.drawable.ic_error_outline_white_24dp);
+        setLeftIconRes(R.drawable.ic_error_outline_white_24dp);
         show();
     }
 
     @Override
-    public IToast setClickCallBack(@NonNull String text, @NonNull View.OnClickListener listener) {
-        return setClickCallBack(text, R.drawable.ic_play_arrow_white_24dp, listener);
+    public IToast setClickCallback(@NonNull String text, @NonNull View.OnClickListener listener) {
+        return setClickCallback(text, R.drawable.ic_play_arrow_white_24dp, listener);
     }
 
     @Override
-    public IToast setClickCallBack(@NonNull String text, @DrawableRes int resId, @NonNull View.OnClickListener listener) {
+    public IToast setClickCallback(@NonNull String text, @DrawableRes int resId, @NonNull View.OnClickListener
+            listener) {
         if (mType != CLICKABLE) {
             Log.d(TAG, "only clickable toast has click callback!!!");
             return this;

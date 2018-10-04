@@ -23,6 +23,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation project(':toast')
+    implementation 'com.facebook.fresco:fresco:1.10.0'
+    implementation 'com.facebook.fresco:animated-gif:1.10.0'
 //    implementation 'com.github.bboylin:UniversalToast:v1.0.6'
     //memory leak
 //    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'

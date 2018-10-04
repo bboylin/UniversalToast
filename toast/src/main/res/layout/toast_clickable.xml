@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/toast_bg"
-    android:paddingBottom="10dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="12dp"
-    android:paddingTop="10dp">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/toast_bg"
+              android:paddingBottom="10dp"
+              android:paddingEnd="12dp"
+              android:paddingLeft="16dp"
+              android:paddingRight="12dp"
+              android:paddingStart="16dp"
+              android:paddingTop="10dp">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:scaleType="centerCrop"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/text"
@@ -24,16 +26,17 @@
         android:layout_gravity="center"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"/>
 
     <View
         android:id="@+id/divider"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="4dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="4dp"
-        android:background="@android:color/white" />
+        android:background="@android:color/white"/>
 
     <LinearLayout
         android:id="@+id/btn"
@@ -50,13 +53,13 @@
             android:layout_gravity="center"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"/>
 
         <ImageView
             android:id="@+id/btn_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_play_arrow_white_24dp" />
+            android:src="@drawable/ic_play_arrow_white_24dp"/>
     </LinearLayout>
 </LinearLayout>

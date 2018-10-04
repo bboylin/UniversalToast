@@ -4,16 +4,25 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.lang.reflect.Field;
 
@@ -31,13 +40,18 @@ import static xyz.bboylin.universialtoast.UniversalToast.UNIVERSAL;
  */
 
 public class SystemToast implements IToast {
+    private static final String TAG = "UniversalToast";
+    private static final int NO_LEFT_ICON = 0;
     @NonNull
     private final Toast mToast;
     @NonNull
     private final Context mContext;
     @UniversalToast.Type
     private final int mType;
-    private static final String TAG = "UniversalToast";
+    @DrawableRes
+    private int mLeftIconRes = NO_LEFT_ICON;
+    @Nullable
+    private Uri mLeftGifUri;
 
     private SystemToast(@NonNull Context context, @NonNull Toast toast, @UniversalToast.Type int type) {
         mContext = context;
@@ -87,10 +101,14 @@ public class SystemToast implements IToast {
     }
 
     @Override
-    public IToast setIcon(int resId) {
-        ImageView imageView = mToast.getView().findViewById(R.id.icon);
-        imageView.setBackgroundResource(resId);
-        imageView.setVisibility(View.VISIBLE);
+    public IToast setLeftIconRes(@DrawableRes int resId) {
+        mLeftIconRes = resId;
+        return this;
+    }
+
+    @Override
+    public IToast setLeftGifUri(@NonNull Uri leftGifUri) {
+        mLeftGifUri = leftGifUri;
         return this;
     }
 
@@ -101,7 +119,7 @@ public class SystemToast implements IToast {
      */
     @Deprecated
     @Override
-    public IToast setAnimations(int animations) {
+    public IToast setAnimations(@StyleRes int animations) {
         Log.d(TAG, "method:setAnimations is Deprecated , animations must be a system resource " +
                 ", considering the window manager does not have access to applications.");
         try {
@@ -121,7 +139,7 @@ public class SystemToast implements IToast {
     }
 
     @Override
-    public IToast setColor(int colorRes) {
+    public IToast setColor(@ColorRes int colorRes) {
         GradientDrawable drawable = (GradientDrawable) mToast.getView().getBackground();
         drawable.setColor(mContext.getResources().getColor(colorRes));
         return this;
@@ -147,7 +165,7 @@ public class SystemToast implements IToast {
     }
 
     @Override
-    public IToast setText(int resId) {
+    public IToast setText(@StringRes int resId) {
         mToast.setText(resId);
         return this;
     }
@@ -160,6 +178,18 @@ public class SystemToast implements IToast {
 
     @Override
     public void show() {
+        SimpleDraweeView draweeView = mToast.getView().findViewById(R.id.icon);
+        if (mLeftGifUri != null) {
+            DraweeController draweeController = Fresco.newDraweeControllerBuilder()
+                    .setAutoPlayAnimations(true) // 自动播放动画
+                    .setUri(mLeftGifUri)
+                    .build();
+            draweeView.setController(draweeController);
+            draweeView.setVisibility(View.VISIBLE);
+        } else if (mLeftIconRes != NO_LEFT_ICON) {
+            draweeView.setActualImageResource(mLeftIconRes);
+            draweeView.setVisibility(View.VISIBLE);
+        }
         mToast.show();
     }
 
@@ -171,32 +201,32 @@ public class SystemToast implements IToast {
 
     @Override
     public void showSuccess() {
-        setIcon(mType == EMPHASIZE ? R.drawable.ic_check_circle_white_24dp : R.drawable.ic_done_white_24dp);
+        setLeftIconRes(mType == EMPHASIZE ? R.drawable.ic_check_circle_white_24dp : R.drawable.ic_done_white_24dp);
         show();
     }
 
     @Override
     public void showError() {
-        setIcon(R.drawable.ic_clear_white_24dp);
+        setLeftIconRes(R.drawable.ic_clear_white_24dp);
         show();
     }
 
     @Override
     public void showWarning() {
-        setIcon(R.drawable.ic_error_outline_white_24dp);
+        setLeftIconRes(R.drawable.ic_error_outline_white_24dp);
         show();
     }
 
     @Deprecated
     @Override
-    public IToast setClickCallBack(@NonNull String text, @NonNull View.OnClickListener listener) {
+    public IToast setClickCallback(@NonNull String text, @NonNull View.OnClickListener listener) {
         Log.e(TAG, "only CustomToast has click callback");
         return this;
     }
 
     @Deprecated
     @Override
-    public IToast setClickCallBack(@NonNull String text, int resId, @NonNull View.OnClickListener listener) {
+    public IToast setClickCallback(@NonNull String text, int resId, @NonNull View.OnClickListener listener) {
         Log.e(TAG, "only CustomToast has click callback");
         return this;
     }
