@@ -91,3 +91,12 @@ Android 8.0以下无需悬浮窗权限。
 请将此处你的application context改为activity的context
 
 感谢 : [ToastCompat](https://github.com/drakeet/ToastCompat)
+
+更新：
+
+没想到有这么多人没用过fresco。。。在application初始化的时候记得初始化fresco：
+```java
+Fresco.initialize(ctx);
+```
+
+不想引入fresco就把版本换成1.0.8
